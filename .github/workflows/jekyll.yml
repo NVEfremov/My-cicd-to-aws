@@ -1,4 +1,10 @@
 name: CI-CD-Pipeline-to-AWS
+env:
+  EB_PACKAGE_S3_BUCKET: "nefremov-eb-package"
+  EB_APPLICATOIN_NAME: "MyFlask"
+  EB_ENV_NAME: "MyFlask-env"
+  DEPLOY_PAKCAGE_NAME: "flask_app_${{ github.sha }}.zip"
+  AWS_REGION_NAME: "eu-central-1"
 
 on:
   push:
@@ -13,3 +19,6 @@ jobs:
     steps:
     - name: Git clone our repo 
       uses: actions/checkout@v2
+    
+    - name: Create zip
+      run: zip -r ${{ env.DEPLOY_PAKCAGE_NAME }} ./ -x *.git*
